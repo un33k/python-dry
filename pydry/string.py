@@ -15,8 +15,10 @@ def str_serialize_clean(string):
     txt = str_single_space(str_single_line(string))
     return txt
 
-def str_find_between_regex(start, end, string, lazy=True, options=re.DOTALL|re.MULTILINE, all=False):
+def str_find_between_regex(start, end, string, lazy=True, options=re.DOTALL|re.MULTILINE, all=False, case=True):
     """ Returns substring btween two strings tags. all=(returns all matches), lazy=(return shortest match)"""
+    if not case:
+        options |= re.IGNORECASE
     pattern = '(?<={}){}(?={})'.format(re.escape(start), '(.*?)' if lazy else '(.*)', re.escape(end))
     match = re.findall(pattern, string, options)
     if match:
@@ -26,7 +28,12 @@ def str_find_between_regex(start, end, string, lazy=True, options=re.DOTALL|re.M
             return match[0]
     return ''
 
-def str_find_between_search(start, end, string, reverse=False):
+def str_find_between_search(start, end, string, reverse=False, case=True):
+    if not case:
+        start = start.lower()
+        end = end.lower()
+        string_orig = string
+        string = string.lower()
     try:
         if reverse:
             start = string.rindex(start) + len(start)
@@ -34,7 +41,10 @@ def str_find_between_search(start, end, string, reverse=False):
         else:
             start = string.index(start) + len(start)
             end = string.index(end, start)
-        return string[start:end]
+        if case:
+            return string[start:end]
+        else:
+            return string_orig[start:end]
     except ValueError:
         return ""
 
