@@ -15,14 +15,14 @@ def str_serialize_clean(string):
     txt = str_single_space(str_single_line(string))
     return txt
 
-def str_find_between_regex(start, end, string, lazy=True, options=re.DOTALL|re.MULTILINE, all=False, case=True):
+def str_find_between_regex(start, end, string, lazy=True, options=re.DOTALL|re.MULTILINE, allmatch=False, case=True):
     """ Returns substring btween two strings tags. all=(returns all matches), lazy=(return shortest match)"""
     if not case:
         options |= re.IGNORECASE
-    pattern = '(?<={}){}(?={})'.format(re.escape(start), '(.*?)' if lazy else '(.*)', re.escape(end))
+    pattern = '(?<={0}){1}(?={2})'.format(re.escape(start), '(.*?)' if lazy else '(.*)', re.escape(end))
     match = re.findall(pattern, string, options)
     if match:
-        if all:
+        if allmatch:
             return match
         else:
             return match[0]

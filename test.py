@@ -47,7 +47,7 @@ class TestDry(unittest.TestCase):
         self.assertEquals(substring.strip(), "You")
 
         # find substring the lazy way (shortest substring)
-        substrings = str_find_between_regex(start, end, string, all=True)
+        substrings = str_find_between_regex(start, end, string, allmatch=True)
         self.assertEquals(len(substrings), 2)
         self.assertEquals(substrings[0].strip(), "You")
         self.assertEquals(substrings[1].strip(), "You")
