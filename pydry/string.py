@@ -1,7 +1,7 @@
 import re
 
 def str_single_space(string):
-    """ Converts one or more spaces into a single space """
+    """ Converts more than one consecutive spaces into a single space """
 
     txt = re.sub(" +", ' ', string)
     return txt
@@ -36,7 +36,7 @@ def str_find_between_regex(string, start='', end='',  lazy=True, options=re.DOTA
     return ''
 
 def str_find_between_tags(string, start='', end='', case=True):
-    """ Returns substring between two strings tags """
+    """ Returns a substring between two string tags """
 
     if not case:
         string_orig = string
@@ -62,7 +62,7 @@ def str_find_between_tags(string, start='', end='', case=True):
     return string[s+len(start):e]
 
 def str_find_all_between_tags(string, start='', end='', case=True):
-    """ Returns all substring between two strings tags """
+    """ Returns all substrings between two string tags """
 
     if not case:
         string_orig = string
@@ -97,7 +97,7 @@ def str_find_all_between_tags(string, start='', end='', case=True):
 
 
 def str_find_between_tags_r(string, start='', end='', case=True):
-    """ Returns substring between two strings tags - Start from end of string """
+    """ Returns a substring between two string tags - Start from end of string """
 
     if not case:
         string_orig = string
