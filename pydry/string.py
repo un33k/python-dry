@@ -60,7 +60,41 @@ def str_find_between_tags(string, start='', end='', case=True):
     if not case:
         return string_orig[s+len(start):e]
     return string[s+len(start):e]
-    
+
+def str_find_all_between_tags(string, start='', end='', case=True):
+    """ Returns all substring between two strings tags """
+
+    if not case:
+        string_orig = string
+        string = string.lower()
+        start = start.lower()
+        end = end.lower()
+
+    results = []
+    while True:
+
+        if start:
+            s = string.find(start)
+        else:
+            s = 0
+
+        if end:
+            e = string.find(end, s+len(start))
+        else:
+            e = len(string)
+
+        if s < 0 or e < 0:
+            break
+
+        if not case:
+            match = string_orig[s+len(start):e]
+            string_orig = string_orig[e+len(end):]
+        else:
+            match = string[s+len(start):e]
+        results.append(match)
+        string = string[e+len(end):]
+    return results
+
 
 def str_find_between_tags_r(string, start='', end='', case=True):
     """ Returns substring between two strings tags - Start from end of string """

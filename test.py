@@ -104,6 +104,16 @@ class TestDry(unittest.TestCase):
         self.assertEquals(substring, " <a href='foo' title='some title'>You You</a>")
 
 
+    def test_find_all_between_search(self):
+        string = "A\tAYou  You HooB\nB\nWorld Hoo\t A\tAYou  You HooB\nB <a href='foo' title='some title'>A\tAYou  You HooB\nB</a>"
+        start = "A\tA"
+        end = 'B\nB'
+
+        # find all substring by searching from left to right.
+        substrings = str_find_all_between_tags(string, start, end)
+        self.assertEquals(len(substrings), 3)
+
+
 if __name__ == '__main__':
     unittest.main()
 
