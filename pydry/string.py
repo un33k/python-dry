@@ -2,24 +2,31 @@ import re
 
 def str_single_space(string):
     """ Converts one or more spaces into a single space """
+
     txt = re.sub(" +", ' ', string)
     return txt
 
 def str_single_line(string):
     """ Converts a content with multiple line into a single line content """
+
     txt = re.sub("\r\n|\n|\r|\t", ' ', string)
     return txt
 
 def str_serialize_clean(string):
     """ Converts content into a single line with single spaces """
+
     txt = str_single_space(str_single_line(string))
     return txt
 
 def str_find_between_regex(string, start='', end='',  lazy=True, options=re.DOTALL|re.MULTILINE, allmatch=False, case=True):
-    """ Returns substring btween two strings tags. all=(returns all matches), lazy=(return shortest match)"""
+    """ Returns substring between two strings tags. all=(returns all matches), lazy=(return shortest match)"""
+
     if not case:
         options |= re.IGNORECASE
-    pattern = '(?<={0}){1}(?={2})'.format(re.escape(start), '(.*?)' if lazy else '(.*)', re.escape(end))
+
+    pattern = '{0}{1}{2}'.format('(?<={0})'.format(re.escape(start)) if start else '^',
+                                 '(.*?)' if lazy else '(.*)',
+                                 '(?={0})'.format(re.escape(end)) if end else '$')
     match = re.findall(pattern, string, options)
     if match:
         if allmatch:
@@ -29,7 +36,8 @@ def str_find_between_regex(string, start='', end='',  lazy=True, options=re.DOTA
     return ''
 
 def str_find_between_search( string, start='', end='', reverse=False, case=True):
-    """ Returns substring btween two strings tags. Not using regex """
+    """ Returns substring between two strings tags. Not using regex """
+
     if not case:
         start = start.lower()
         end = end.lower()

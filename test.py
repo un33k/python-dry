@@ -37,6 +37,17 @@ class TestDry(unittest.TestCase):
         substring = str_find_between_regex(string, start, end, case=False)
         self.assertEquals(substring, "      You  Hoo Hoo ")
 
+        start = ""
+        # find substring the lazy way (shortest substring from the start of string)
+        substring = str_find_between_regex(string, start, end)
+        self.assertEquals(substring, "Hello\r\nWorld\t      You  Hoo Hoo ")
+
+        start = "World\t"
+        end = ""
+        # find substring the lazy way (shortest substring from the start to end of string)
+        substring = str_find_between_regex(string, start, end)
+        self.assertEquals(substring, "      You  Hoo Hoo <a href='foo' title='some title'>You Hoo</a>")
+
     def test_find_between_regex_all(self):
         string = "Hello\r\nWorld\t      You  Hoo Hoo <a href='foo' title='some title'>You Hoo</a> Hello\r\nWorld\t      You  Hoo Hoo"
         start = "World\t"
