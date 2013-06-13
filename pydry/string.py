@@ -15,7 +15,7 @@ def str_serialize_clean(string):
     txt = str_single_space(str_single_line(string))
     return txt
 
-def str_find_between_regex(start, end, string, lazy=True, options=re.DOTALL|re.MULTILINE, allmatch=False, case=True):
+def str_find_between_regex(string, start='', end='',  lazy=True, options=re.DOTALL|re.MULTILINE, allmatch=False, case=True):
     """ Returns substring btween two strings tags. all=(returns all matches), lazy=(return shortest match)"""
     if not case:
         options |= re.IGNORECASE
@@ -28,7 +28,8 @@ def str_find_between_regex(start, end, string, lazy=True, options=re.DOTALL|re.M
             return match[0]
     return ''
 
-def str_find_between_search(start, end, string, reverse=False, case=True):
+def str_find_between_search( string, start='', end='', reverse=False, case=True):
+    """ Returns substring btween two strings tags. Not using regex """
     if not case:
         start = start.lower()
         end = end.lower()
@@ -46,7 +47,7 @@ def str_find_between_search(start, end, string, reverse=False, case=True):
         else:
             return string_orig[start:end]
     except ValueError:
-        return ""
+        return ''
 
 
 

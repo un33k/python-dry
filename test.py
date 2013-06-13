@@ -25,29 +25,28 @@ class TestDry(unittest.TestCase):
         start = "World\t"
         end = '<'
         # find substring the lazy way (shortest substring)
-        substring = str_find_between_regex(start, end, string)
+        substring = str_find_between_regex(string, start, end)
         self.assertEquals(substring, "      You  Hoo Hoo ")
         
         # find substring the greedy way (longest substring)
-        substring = str_find_between_regex(start, end, string, lazy=False)
+        substring = str_find_between_regex(string, start, end, lazy=False)
         self.assertEquals(substring, "      You  Hoo Hoo <a href='foo' title='some title'>You Hoo")
 
         start = "WORLD\t"
         # find substring the lazy way (shortest substring) -- CaseInsensitive
-        substring = str_find_between_regex(start, end, string, case=False)
+        substring = str_find_between_regex(string, start, end, case=False)
         self.assertEquals(substring, "      You  Hoo Hoo ")
-
 
     def test_find_between_regex_all(self):
         string = "Hello\r\nWorld\t      You  Hoo Hoo <a href='foo' title='some title'>You Hoo</a> Hello\r\nWorld\t      You  Hoo Hoo"
         start = "World\t"
         end = 'Hoo'
         # find substring the lazy way (shortest substring)
-        substring = str_find_between_regex(start, end, string)
+        substring = str_find_between_regex(string, start, end)
         self.assertEquals(substring.strip(), "You")
 
         # find substring the lazy way (shortest substring)
-        substrings = str_find_between_regex(start, end, string, allmatch=True)
+        substrings = str_find_between_regex(string, start, end, allmatch=True)
         self.assertEquals(len(substrings), 2)
         self.assertEquals(substrings[0].strip(), "You")
         self.assertEquals(substrings[1].strip(), "You")
@@ -57,16 +56,16 @@ class TestDry(unittest.TestCase):
         start = "Hoo"
         end = '<'
         # find substring by searching from left to right. (matching the first "end")
-        substring = str_find_between_search(start, end, string)
+        substring = str_find_between_search(string, start, end)
         self.assertEquals(substring, "\t      You  You Hoo ")
         
         # find substring by search from right to left. (matching the first "start")
-        substring = str_find_between_search(start, end, string, reverse=True)
+        substring = str_find_between_search(string, start, end, reverse=True)
         self.assertEquals(substring, " <a href='foo' title='some title'>You You")
 
         start = "HOO"
         # find substring by searching from left to right. (matching the first "end") -- CaseInsensitive
-        substring = str_find_between_search(start, end, string, case=False)
+        substring = str_find_between_search(string, start, end, case=False)
         self.assertEquals(substring, "\t      You  You Hoo ")
 
 
