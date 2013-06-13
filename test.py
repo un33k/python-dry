@@ -66,18 +66,42 @@ class TestDry(unittest.TestCase):
         string = "Hello\r\nWorld Hoo\t      You  You Hoo <a href='foo' title='some title'>You You</a>"
         start = "Hoo"
         end = '<'
-        # find substring by searching from left to right. (matching the first "end")
-        substring = str_find_between_search(string, start, end)
+
+        # find substring by searching from left to right.
+        substring = str_find_between_tags(string, start, end)
         self.assertEquals(substring, "\t      You  You Hoo ")
-        
-        # find substring by search from right to left. (matching the first "start")
-        substring = str_find_between_search(string, start, end, reverse=True)
+
+        # find substring by searching from left to right. (case=False)
+        start = "HOO"
+        substring = str_find_between_tags(string, start, end, case=False)
+        self.assertEquals(substring, "\t      You  You Hoo ")
+
+        # find substring by searching from right to left.
+        start = "Hoo"
+        substring = str_find_between_tags_r(string, start, end)
         self.assertEquals(substring, " <a href='foo' title='some title'>You You")
 
+        # find substring by searching from right to left. (case=False)
         start = "HOO"
-        # find substring by searching from left to right. (matching the first "end") -- CaseInsensitive
-        substring = str_find_between_search(string, start, end, case=False)
-        self.assertEquals(substring, "\t      You  You Hoo ")
+        substring = str_find_between_tags_r(string, start, end, case=False)
+        self.assertEquals(substring, " <a href='foo' title='some title'>You You")
+
+        # find substring by searching from left to right. (start of string to end tag)
+        start = ''
+        substring = str_find_between_tags(string, start, end)
+        self.assertEquals(substring, "Hello\r\nWorld Hoo\t      You  You Hoo ")
+
+        # find substring by searching from right to left. (start tag to end of string)
+        start = "Hoo"
+        end = ''
+        substring = str_find_between_tags_r(string, start, end)
+        self.assertEquals(substring, " <a href='foo' title='some title'>You You</a>")
+
+        # find substring by searching from right to left. (start tag to end of string) (case=False)
+        start = "HOO"
+        end = ''
+        substring = str_find_between_tags_r(string, start, end, case=False)
+        self.assertEquals(substring, " <a href='foo' title='some title'>You You</a>")
 
 
 if __name__ == '__main__':

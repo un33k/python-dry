@@ -35,27 +35,61 @@ def str_find_between_regex(string, start='', end='',  lazy=True, options=re.DOTA
             return match[0]
     return ''
 
-def str_find_between_search( string, start='', end='', reverse=False, case=True):
-    """ Returns substring between two strings tags. Not using regex """
+def str_find_between_tags(string, start='', end='', case=True):
+    """ Returns substring between two strings tags """
 
     if not case:
-        start = start.lower()
-        end = end.lower()
         string_orig = string
         string = string.lower()
-    try:
-        if reverse:
-            start = string.rindex(start) + len(start)
-            end = string.rindex(end, start)
-        else:
-            start = string.index(start) + len(start)
-            end = string.index(end, start)
-        if case:
-            return string[start:end]
-        else:
-            return string_orig[start:end]
-    except ValueError:
+        start = start.lower()
+        end = end.lower()
+
+    if start:
+        s = string.find(start)
+    else:
+        s = 0
+
+    if end:
+        e = string.find(end, s+len(start))
+    else:
+        e = len(string)
+
+    if s < 0 or e < 0:
         return ''
+
+    if not case:
+        return string_orig[s+len(start):e]
+    return string[s+len(start):e]
+    
+
+def str_find_between_tags_r(string, start='', end='', case=True):
+    """ Returns substring between two strings tags - Start from end of string """
+
+    if not case:
+        string_orig = string
+        string = string.lower()
+        start = start.lower()
+        end = end.lower()
+
+    if end:
+        e = string.rfind(end)
+    else:
+        e = len(string)
+
+    if start:
+        if end:
+            s = string.rfind(start, len(end))
+        else:
+            s = string.rfind(start)
+    else:
+        s = 0
+
+    if s < 0 or e < 0:
+        return ''
+
+    if not case:
+        return string_orig[s+len(start):e]
+    return string[s+len(start):e]
 
 
 
