@@ -113,6 +113,20 @@ class TestDry(unittest.TestCase):
         substrings = str_find_all_between_tags(string, start, end)
         self.assertEquals(len(substrings), 3)
 
+        # find all substring by searching from left to right. case=False
+        start = "A\ta"
+        substrings = str_find_all_between_tags(string, start, end, case=False)
+        self.assertEquals(len(substrings), 3)
+
+        # find substring the lazy way (shortest substring) regex
+        start = "A\tA"
+        substrings = str_find_between_regex(string, start, end, allmatch=True)
+        self.assertEquals(len(substrings), 3)
+
+        # find substring the lazy way (shortest substring) regex (case=False)
+        start = "A\ta"
+        substrings = str_find_between_regex(string, start, end, allmatch=True, case=False)
+        self.assertEquals(len(substrings), 3)
 
 if __name__ == '__main__':
     unittest.main()
