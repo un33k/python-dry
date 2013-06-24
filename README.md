@@ -40,7 +40,7 @@ Changelog
 
 0.0.2
 -----
-* Add test directory
+* Directory-based tests
 
 0.0.1
 -----
