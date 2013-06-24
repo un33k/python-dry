@@ -1,4 +1,6 @@
 requests>=1.2.3
+Unidecode>=0.04.13
+
 
 
 

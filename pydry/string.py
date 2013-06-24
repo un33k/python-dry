@@ -1,8 +1,16 @@
+# -*- coding: utf-8 -*-
+
 import re
+import sys
+import types
+import unicodedata
+from unidecode import unidecode
+from htmlentitydefs import name2codepoint
 
 single_line_pattern = re.compile("\r\n|\n|\r|\t")
 single_space_pattern = re.compile(' +')
 single_dash_pattern = re.compile('-+')
+char_entry_pattern = re.compile('&(%s);' % '|'.join(name2codepoint))
 
 # split on double-quotes, single-quotes, and continuous non-whitespace characters.
 line_split_pattern = re.compile('("[^"]+"|\'[^\']+\'|\S+)')
@@ -30,6 +38,47 @@ def str_serialize_clean(string):
 
     txt = str_single_space(str_single_line(string))
     return txt
+
+def str_unicode(string):
+    """ Convers text to unicode """
+
+    if type(string) != types.UnicodeType:
+        string = unicode(string, 'utf-8', 'ignore')
+    return string
+
+def str_unicode_translate(string):
+    """ decode unicode ( 影師嗎 = Ying Shi Ma) """
+
+    text = unidecode(str_unicode(string))
+    return str_unicode(text)
+
+def str_smart_truncate(string, max_length=0, word_boundaries=False, separator=' '):
+    """ Truncate a string """
+
+    string = string.strip(separator)
+
+    if not max_length:
+        return string
+
+    if len(string) < max_length:
+        return string
+
+    if not word_boundaries:
+        return string[:max_length].strip(separator)
+
+    if separator not in string:
+        return string[:max_length]
+
+    truncated = ''
+    for word in string.split(separator):
+        if word:
+            next_len = len(truncated) + len(word) + len(separator)
+            if next_len <= max_length:
+                truncated += '{0}{1}'.format(word, separator)
+    if not truncated:
+        truncated = string[:max_length]
+    return truncated.strip(separator)
+
 
 def str_find_between_regex(string, start='', end='',  lazy=True, options=re.DOTALL|re.MULTILINE, allmatch=False, case=True):
     """ Returns substring between two strings tags. all=(returns all matches), lazy=(return shortest match)"""

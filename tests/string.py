@@ -145,6 +145,57 @@ class TestStringTokenizerCase(unittest.TestCase):
         self.assertEquals(' '.join(excludes), "You are NOT a test")
 
 
+class TestStringUniDecode(unittest.TestCase):
+    """ Decode a unicode string """
+
+    def test_unidecode(self):
+        txt = '影師嗎'
+        r = str_unicode_translate(txt)
+        self.assertEqual(r, "Ying Shi Ma ")
+
+class TestStringTruncate(unittest.TestCase):
+    """ Truncate String """
+
+    def test_truncate(self):
+
+        txt = "This is test number one"
+        # no truncation
+        r = str_smart_truncate(txt)
+        self.assertEqual(r, txt)
+
+        # truncate 5
+        r = str_smart_truncate(txt, 5)
+        self.assertEqual(r, "This")
+
+        # truncate max larger than str len
+        r = str_smart_truncate(txt, 51)
+        self.assertEqual(r, txt)
+
+        # truncate respecting world boundary
+        r = str_smart_truncate(txt, 9, word_boundaries=True)
+        self.assertEqual(r, "This is")
+
+        # truncate respecting world boundary with dash separator
+        txt = "This-is-test-number-one"
+        r = str_smart_truncate(txt, 9, word_boundaries=True, separator='-')
+        self.assertEqual(r, "This-is")
+
+        # truncate respecting world boundary with dash separator single word
+        txt = "This-"
+        r = str_smart_truncate(txt, 9, word_boundaries=True, separator='-')
+        self.assertEqual(r, "This")
+
+        # truncate respecting world boundary with dash separator single word max less than word len
+        txt = "ThisIsALongWord-"
+        r = str_smart_truncate(txt, 9, word_boundaries=True, separator='-')
+        self.assertEqual(r, "ThisIsALo")
+
+        # truncate respecting world boundary with dash separator single word max bigger than word len
+        txt = "ThisIsALongWord-"
+        r = str_smart_truncate(txt, 19, word_boundaries=True, separator='-')
+        self.assertEqual(r, "ThisIsALongWord")
+
+
 
 
 

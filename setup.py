@@ -14,7 +14,7 @@ url = 'https://github.com/un33k/python-pydry'
 author = 'Val Neekman'
 author_email = 'info@neekware.com'
 license = 'BSD'
-install_requires = ['requests>=1.2.3']
+install_requires = ['requests>=1.2.3', 'Unidecode>=0.04.13']
 classifiers = [
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
