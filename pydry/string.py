@@ -6,7 +6,7 @@ import types
 import unicodedata
 from unidecode import unidecode
 
-import defaults
+import .defaults
 
 if defaults.PY_3:
     from html.entities import name2codepoint
