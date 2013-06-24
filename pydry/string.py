@@ -5,15 +5,10 @@ import sys
 import types
 import unicodedata
 from unidecode import unidecode
+from htmlentitydefs import name2codepoint
+from types import UnicodeType
 
-import .defaults
-
-if defaults.PY_3:
-    from html.entities import name2codepoint
-    UnicodeType = False
-else:
-    from htmlentitydefs import name2codepoint
-    from types import UnicodeType
+from . import defaults
 
 single_line_pattern = re.compile("\r\n|\n|\r|\t")
 single_space_pattern = re.compile(' +')
@@ -50,8 +45,6 @@ def str_serialize_clean(string):
 def str_unicode(string):
     """ Convers text to unicode """
 
-    if defaults.PY_3:
-        return string
     if type(string) != UnicodeType:
         string = unicode(string, 'utf-8', 'ignore')
     return string
