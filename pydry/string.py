@@ -5,7 +5,11 @@ import sys
 import types
 import unicodedata
 from unidecode import unidecode
-from htmlentitydefs import name2codepoint
+
+try:
+    from htmlentitydefs import name2codepoint
+except ImportError:
+    from html.entities import name2codepoint
 
 single_line_pattern = re.compile("\r\n|\n|\r|\t")
 single_space_pattern = re.compile(' +')
