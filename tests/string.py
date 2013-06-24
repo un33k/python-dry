@@ -54,6 +54,11 @@ class TestString(unittest.TestCase):
         clean_string = str_single_space(string)
         self.assertEquals(clean_string, "Hello\r\nWorld\t You Hoo")
 
+    def test_single_dash(self):
+        string = "Hello\r\nWorld\t      --You  Hoo-------"
+        clean_string = str_single_dash(string)
+        self.assertEquals(clean_string, "Hello\r\nWorld\t      -You  Hoo-")
+
     def test_single_line(self):
         string = "Hello\r\nWorld\t      You  Hoo"
         clean_string = str_single_line(string)

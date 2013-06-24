@@ -1,15 +1,28 @@
 import re
 
+single_line_pattern = re.compile("\r\n|\n|\r|\t")
+single_space_pattern = re.compile(' +')
+single_dash_pattern = re.compile('-+')
+
+# split on double-quotes, single-quotes, and continuous non-whitespace characters.
+line_split_pattern = re.compile('("[^"]+"|\'[^\']+\'|\S+)')
+
 def str_single_space(string):
     """ Converts more than one consecutive spaces into a single space """
 
-    txt = re.sub(" +", ' ', string)
+    txt = single_space_pattern.sub(' ', string)
+    return txt
+
+def str_single_dash(string):
+    """ Converts more than one consecutive dash into a single space """
+
+    txt = single_dash_pattern.sub('-', string)
     return txt
 
 def str_single_line(string):
     """ Converts a content with multiple line into a single line content """
 
-    txt = re.sub("\r\n|\n|\r|\t", ' ', string)
+    txt = single_line_pattern.sub(' ', string)
     return txt
 
 def str_serialize_clean(string):
@@ -131,19 +144,11 @@ def str_text_tokenizer(string):
     start with a dash (ex: -word) and include list is for all other words
     """
 
-    # Regex to split on double-quotes, single-quotes, and continuous non-whitespace characters.
-    split_pattern = re.compile('("[^"]+"|\'[^\']+\'|\S+)')
-    
-    # Pattern to remove more than one inter white-spaces and more than one "-"
-    space_cleanup_pattern = re.compile('[\s]{2,}')
-    dash_cleanup_pattern = re.compile('^[-]{2,}')
-    
     # Return the list of keywords.
-    keywords = [dash_cleanup_pattern.sub('-', space_cleanup_pattern.sub(' ', t.strip(' "\''))) \
-                    for t in split_pattern.findall(string) \
-                        if len(t.strip(' "\'')) > 0]
-    include = [ word for word in keywords if not word.startswith('-')]
-    exclude = [ word.lstrip('-') for word in keywords if word.startswith('-')]
+    keywords = [ single_dash_pattern.sub('-', single_space_pattern.sub(' ', t.strip(' "\''))) \
+                for t in line_split_pattern.findall(string) if len(t.strip(' "\'')) > 0 ]
+    include = [ word for word in keywords if not word.startswith('-') ]
+    exclude = [ word.lstrip('-') for word in keywords if word.startswith('-') ]
     return include, exclude
 
 
