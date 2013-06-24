@@ -1,27 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import sys
-import os
-
 from pydry.string import *
 
-class TestDry(unittest.TestCase):
-
-    def test_single_space(self):
-        string = "Hello\r\nWorld\t      You  Hoo"
-        clean_string = str_single_space(string)
-        self.assertEquals(clean_string, "Hello\r\nWorld\t You Hoo")
-
-    def test_single_line(self):
-        string = "Hello\r\nWorld\t      You  Hoo"
-        clean_string = str_single_line(string)
-        self.assertEquals(clean_string, "Hello World       You  Hoo")
-
-    def test_serialize(self):
-        string = "Hello\r\nWorld\t      You  Hoo"
-        clean_string = str_serialize_clean(string)
-        self.assertEquals(clean_string, "Hello World You Hoo")
+class TestStringRegEx(unittest.TestCase):
 
     def test_find_between_regex(self):
         string = "Hello\r\nWorld\t      You  Hoo Hoo <a href='foo' title='some title'>You Hoo</a>"
@@ -64,6 +46,23 @@ class TestDry(unittest.TestCase):
         self.assertEquals(len(substrings), 2)
         self.assertEquals(substrings[0].strip(), "You")
         self.assertEquals(substrings[1].strip(), "You")
+
+class TestString(unittest.TestCase):
+
+    def test_single_space(self):
+        string = "Hello\r\nWorld\t      You  Hoo"
+        clean_string = str_single_space(string)
+        self.assertEquals(clean_string, "Hello\r\nWorld\t You Hoo")
+
+    def test_single_line(self):
+        string = "Hello\r\nWorld\t      You  Hoo"
+        clean_string = str_single_line(string)
+        self.assertEquals(clean_string, "Hello World       You  Hoo")
+
+    def test_serialize(self):
+        string = "Hello\r\nWorld\t      You  Hoo"
+        clean_string = str_serialize_clean(string)
+        self.assertEquals(clean_string, "Hello World You Hoo")
 
     def test_find_between_search(self):
         string = "Hello\r\nWorld Hoo\t      You  You Hoo <a href='foo' title='some title'>You You</a>"
@@ -130,6 +129,16 @@ class TestDry(unittest.TestCase):
         start = "A\ta"
         substrings = str_find_between_regex(string, start, end, allmatch=True, case=False)
         self.assertEquals(len(substrings), 3)
+
+class TestStringTokenizerCase(unittest.TestCase):
+    """ Tokenizer Test """
+
+    def test_tokenizer_test(self):
+        text = "I am a test -You -are -NOT -a -test"
+        includes, excludes = str_text_tokenizer(text)
+        self.assertEquals(' '.join(includes), "I am a test")
+        self.assertEquals(' '.join(excludes), "You are NOT a test")
+
 
 
 

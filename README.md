@@ -1,7 +1,7 @@
 Python DRY
 ====================
 
-**pydry**
+**PyDry**
 
 **Author:** Val Neekman [ info [@] neekware.com, [@vneekman](https://twitter.com/vneekman) ]
 
@@ -38,10 +38,12 @@ To run the tests against the current environment:
 Changelog
 =========
 
+0.0.2
+-----
+* Add test directory
 
 0.0.1
 -----
-
 * Initial release
 
 

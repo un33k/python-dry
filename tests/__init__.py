@@ -1,3 +1,6 @@
-from string import *
+from .generic import *
+from .string import *
+
+
 
 

@@ -125,6 +125,28 @@ def str_find_between_tags_r(string, start='', end='', case=True):
         return string_orig[s+len(start):e]
     return string[s+len(start):e]
 
+def str_text_tokenizer(string):
+    """ 
+    Tokenize the input string and return two lists, exclude list is for words that
+    start with a dash (ex: -word) and include list is for all other words
+    """
+
+    # Regex to split on double-quotes, single-quotes, and continuous non-whitespace characters.
+    split_pattern = re.compile('("[^"]+"|\'[^\']+\'|\S+)')
+    
+    # Pattern to remove more than one inter white-spaces and more than one "-"
+    space_cleanup_pattern = re.compile('[\s]{2,}')
+    dash_cleanup_pattern = re.compile('^[-]{2,}')
+    
+    # Return the list of keywords.
+    keywords = [dash_cleanup_pattern.sub('-', space_cleanup_pattern.sub(' ', t.strip(' "\''))) \
+                    for t in split_pattern.findall(string) \
+                        if len(t.strip(' "\'')) > 0]
+    include = [ word for word in keywords if not word.startswith('-')]
+    exclude = [ word.lstrip('-') for word in keywords if word.startswith('-')]
+    return include, exclude
+
+
 
 
 
