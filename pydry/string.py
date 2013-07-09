@@ -11,6 +11,7 @@ from types import UnicodeType
 from . import defaults
 
 single_line_pattern = re.compile("\r\n|\n|\r|\t")
+single_next_line_pattern = single_line_pattern
 single_space_pattern = re.compile(' +')
 single_dash_pattern = re.compile('-+')
 char_entry_pattern = re.compile('&(%s);' % '|'.join(name2codepoint))
@@ -34,6 +35,12 @@ def str_single_line(string):
     """ Converts a content with multiple line into a single line content """
 
     txt = single_line_pattern.sub(' ', string)
+    return txt
+
+def str_single_next_line(string):
+    """ Converts a content with multiple next line and carriage returns into a single next line content """
+
+    txt = single_line_pattern.sub('\n', string)
     return txt
 
 def str_serialize_clean(string):
